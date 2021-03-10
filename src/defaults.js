@@ -339,6 +339,17 @@ function upload (type, file, cbs) {
   console.log('Upload handler required for upload editor')
 }
 
+/* key translate function */
+function translatekey (key, title) {
+  const lang = defaults.languages[defaults.language]
+  if (!lang) throw new Error(`Unknown language ${defaults.language}`)
+
+  if (typeof lang[key] === 'undefined') {
+    defaults.languages[defaults.default_language][key] = title || key
+  }
+  return translate(key)
+}
+
 /* String translate function */
 function translate (key, variables) {
   const lang = defaults.languages[defaults.language]
@@ -378,5 +389,6 @@ export const defaults = {
   custom_validators,
   default_language,
   language,
-  translate
+  translate,
+  translatekey
 }

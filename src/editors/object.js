@@ -641,7 +641,8 @@ export class ObjectEditor extends AbstractEditor {
 
       /* Description */
       if (this.schema.description) {
-        this.description = this.theme.getDescription(this.schema.description)
+        const descriptiontranslated = this.defaults.translatekey('description_' + this.schema.title, this.schema.description)
+        this.description = this.theme.getDescription(descriptiontranslated)
         this.container.appendChild(this.description)
       }
 

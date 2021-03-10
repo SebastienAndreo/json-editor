@@ -11,6 +11,7 @@ export class AbstractEditor {
     this.template_engine = this.jsoneditor.template
     this.iconlib = this.jsoneditor.iconlib
     this.translate = this.jsoneditor.translate || this.defaults.translate
+    this.translatekey = this.defaults.translatekey
     this.original_schema = options.schema
     this.schema = this.jsoneditor.expandSchema(this.original_schema)
     this.active = true
@@ -575,7 +576,7 @@ export class AbstractEditor {
   }
 
   getTitle () {
-    return this.schema.title || this.key
+    return this.defaults.translatekey(this.key, this.schema.title)
   }
 
   enable () {
