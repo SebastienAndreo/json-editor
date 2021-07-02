@@ -105,7 +105,7 @@ export class AbstractTheme {
     return el
   }
 
-  getHeader (text) {
+  getHeader (text, pathDepth) {
     const el = document.createElement('h3')
     if (typeof text === 'string') {
       el.textContent = text
@@ -325,10 +325,13 @@ export class AbstractTheme {
 
   }
 
-  getFormControl (label, input, description, infoText) {
+  getFormControl (label, input, description, infoText, formName) {
     const el = document.createElement('div')
     el.classList.add('form-control')
-    if (label) el.appendChild(label)
+    if (label) {
+      el.appendChild(label)
+      if (formName) label.setAttribute('for', formName)
+    }
     if ((input.type === 'checkbox' || input.type === 'radio') && label) {
       input.style.width = 'auto'
       label.insertBefore(input, label.firstChild)

@@ -2,15 +2,14 @@ import { SelectEditor } from './select.js'
 
 export class RadioEditor extends SelectEditor {
   preBuild () {
-    this.schema.required = true /* force editor into required mode to prevent creation of empty radio button */
     super.preBuild()
   }
 
   build () {
     this.label = ''
     if (!this.options.compact) this.header = this.label = this.theme.getFormInputLabel(this.getTitle(), this.isRequired())
-    if (this.schema.description) this.description = this.theme.getFormInputDescription(this.schema.description)
-    if (this.options.infoText) this.infoButton = this.theme.getInfoButton(this.options.infoText)
+    if (this.schema.description) this.description = this.theme.getFormInputDescription(this.translateProperty(this.schema.description))
+    if (this.options.infoText) this.infoButton = this.theme.getInfoButton(this.translateProperty(this.options.infoText))
     if (this.options.compact) this.container.classList.add('compact')
 
     this.radioContainer = document.createElement('div')
@@ -20,6 +19,12 @@ export class RadioEditor extends SelectEditor {
     const radioInputEventhandler = e => {
       this.setValue(e.currentTarget.value)
       this.onChange(true)
+    }
+
+    if (!this.isRequired()) {
+      this.enum_display.shift()
+      this.enum_options.shift()
+      this.enum_values.shift()
     }
 
     for (let i = 0; i < this.enum_values.length; i++) {
@@ -47,6 +52,10 @@ export class RadioEditor extends SelectEditor {
 
     if (this.schema.readOnly || this.schema.readonly) {
       this.disable(true)
+      for (let j = 0; j < this.radioGroup.length; j++) {
+        this.radioGroup[j].disabled = true
+      }
+      this.radioContainer.classList.add('readonly')
     }
 
     const radioContainerWrapper = this.theme.getContainer()
